@@ -1,0 +1,36 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer components {
+  .input-box {
+    @apply w-full flex justify-between gap-3 text-sm text-black bg-slate-100 rounded px-4 py-3 mb-4 mt-3 border border-slate-200 outline-none;
+  }
+}
+
+/* Label styling */
+.input-label {
+  font-size: 13px;
+  color: #1e293b; /* slate-800 */
+  display: block;
+  margin-bottom: 4px;
+}
+
+/* Input wrapper */
+.input-wrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+/* Eye icon */
+.input-icon {
+  position: absolute;
+  right: 0.5rem;
+  color: #94a3b8; /* slate-400 */
+  cursor: pointer;
+}
+
+.input-icon.active {
+  color: #6366f1; /* primary */
+}
