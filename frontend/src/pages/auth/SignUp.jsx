@@ -14,10 +14,10 @@ const SignUp = () => {
   const [fullName, setFullName] = useState("");
   const [password, setPassword] = useState("");
   const [email, setEmail] = useState("");
-
   const [error, setError] = useState(null);
-  const {updateUser} = useContext(UserContext);
+  const [showNotice, setShowNotice] = useState(true); 
 
+  const { updateUser } = useContext(UserContext);
   const navigate = useNavigate();
 
   const handleSignUp = async (e) => {
@@ -25,40 +25,45 @@ const SignUp = () => {
     let profileImageUrl = "";
 
     if (!fullName) {
-      setError(`Please enter your name`);
+      setError("Please enter your name");
       return;
     }
 
     if (!validateEmail(email)) {
-      setError(`Please enter your email address`);
+      setError("Please enter your email address");
       return;
     }
+
     if (!password) {
-      setError(`Please enter your password`);
+      setError("Please enter your password");
       return;
     }
+
     setError("");
 
-    try{
-
-      if (profilePic){
+    try {
+      if (profilePic) {
         const imgUploadRes = await uploadImage(profilePic);
         profileImageUrl = imgUploadRes.imageUrl || "";
       }
 
       const response = await axiosInstance.post(API_PATHS.AUTH.REGISTER, {
-        fullName, email, password, profileImageUrl
-      })
-      const {token, user} = response.data;
-      if (token){
-        localStorage.setItem('token', token);
+        fullName,
+        email,
+        password,
+        profileImageUrl,
+      });
+
+      const { token, user } = response.data;
+      if (token) {
+        localStorage.setItem("token", token);
         updateUser(user);
         navigate("/dashboard");
       }
-    }catch(error){
-      if (error.response && error.response.data.message){
+    } catch (error) {
+      if (error.response && error.response.data.message) {
         setError(error.response.data.message);
-      }else {
+      } else {
         setError("Something went wrong. Please try again");
       }
     }
@@ -66,10 +71,26 @@ const SignUp = () => {
 
   return (
     <AuthLayout>
-      <div className="lg:w-[100] h-auto md:h-full mt-10 md:mt-10 flex flex-col justify-center  ">
+      <div className="lg:w-[100%] h-auto md:h-full mt-10 md:mt-10 flex flex-col justify-center">
+        
+        {showNotice && (
+          <div className="bg-yellow-100 border border-yellow-300 text-yellow-800 px-4 py-2 rounded-md mb-4 text-sm flex justify-between items-center animate-fadeIn">
+            <p>
+              ⚠️ Note: The backend is hosted on a free Render plan. 
+              It might take up to <b>30–60 seconds</b> to wake up after inactivity.
+            </p>
+            <button
+              onClick={() => setShowNotice(false)}
+              className="ml-4 text-yellow-700 font-bold text-lg leading-none"
+            >
+              ×
+            </button>
+          </div>
+        )}
+
         <h3 className="text-xl font-semibold text-black">Create an Account</h3>
         <p className="text-xs text-slate-700 mt-[5px] mb-6">
-          Join Today By entering details.
+          Join Today By entering your details.
         </p>
 
         <form onSubmit={handleSignUp}>
@@ -101,11 +122,13 @@ const SignUp = () => {
               />
             </div>
           </div>
+
           {error && <p className="text-red-500 text-xs pb-2.5">{error}</p>}
 
           <button className="btn-primary" type="submit">
             Sign-up
           </button>
+
           <p className="text-[13px] text-slate-800 mt-3">
             Already have an account?{" "}
             <Link className="font-medium font-primary underline" to="/login">
@@ -117,4 +140,5 @@ const SignUp = () => {
     </AuthLayout>
   );
 };
+
 export default SignUp;
