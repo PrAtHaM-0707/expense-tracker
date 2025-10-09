@@ -7,7 +7,7 @@ const AuthLayout = ({ children }) => {
   return (
     <div className="auth-layout">
       <div className="auth-left">
-        <h2 className="auth-heading">Expense Tracker</h2>
+        <h2 className="auth-heading">MoneyMate</h2>
         {children}
       </div>
 
