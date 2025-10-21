@@ -1,4 +1,4 @@
-# Expense Tracker (Shopzi)
+# Expense Tracker
 
 A full-stack Expense Tracker application (frontend + backend) included in this repository. The project contains a React + Vite frontend and a Node.js + Express backend with organized controllers, models, routes and file upload support. It provides user authentication, income & expense tracking, simple dashboard endpoints and image upload functionality.
 
